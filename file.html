@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" >
+<head>
+  
+  <meta charset="UTF-8">
+  <title> Happy birthday Card</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<div class="card">
+  
+		<div class="imgBox">
+			<div class="bark"></div>
+			<img src="cute happy birthday.jpeg">
+		</div>
+		<div class="details">
+			<h4 class="color2">HAPPY BIRTHDAY</h4>
+			<p>Happy birthday, my love ❤️</p>
+			<p>You make every day brighter.</p>
+			<p>stay lovely as always.</p>
+			<p>Enjoy your special day and</p>
+			<p>take care of yourself. I hope</p>
+			<p>you are doing well even within the </p>
+			<p>circumstances into your life.</p>
+			<p class="text-right">Happy Birthday</p>
+			<p class="text-right">Ely ♡</p>
+	  </div>
+
+	</div>
+
+	<!-- Music Button -->
+	<button id="musicBtn" class="music-btn playing">
+		<span class="play-icon" style="display: none;">▶</span>
+		<span class="pause-icon">⏸</span>
+	</button>
+
+	<!-- Audio Element -->
+	<audio id="bgMusic" loop autoplay>
+		<source src="birthday-song.mp3" type="audio/mpeg">
+	</audio>
+
+<script>
+	const musicBtn = document.getElementById('musicBtn');
+	const bgMusic = document.getElementById('bgMusic');
+	const playIcon = document.querySelector('.play-icon');
+	const pauseIcon = document.querySelector('.pause-icon');
+	let isPlaying = true;
+
+	// Auto-play on page load (some browsers may block this)
+	window.addEventListener('load', function() {
+		bgMusic.play().catch(function(error) {
+			// If autoplay is blocked, show play button
+			console.log('Autoplay was prevented:', error);
+			isPlaying = false;
+			playIcon.style.display = 'inline';
+			pauseIcon.style.display = 'none';
+			musicBtn.classList.remove('playing');
+		});
+	});
+
+	// Try to play on first user interaction if autoplay was blocked
+	document.addEventListener('click', function playOnFirstClick() {
+		if (!isPlaying) {
+			bgMusic.play().then(function() {
+				isPlaying = true;
+				playIcon.style.display = 'none';
+				pauseIcon.style.display = 'inline';
+				musicBtn.classList.add('playing');
+			}).catch(function(error) {
+				console.log('Could not play:', error);
+			});
+		}
+		document.removeEventListener('click', playOnFirstClick);
+	}, { once: true });
+
+	musicBtn.addEventListener('click', function(e) {
+		e.stopPropagation();
+		if (isPlaying) {
+			bgMusic.pause();
+			playIcon.style.display = 'inline';
+			pauseIcon.style.display = 'none';
+			musicBtn.classList.remove('playing');
+		} else {
+			bgMusic.play();
+			playIcon.style.display = 'none';
+			pauseIcon.style.display = 'inline';
+			musicBtn.classList.add('playing');
+		}
+		isPlaying = !isPlaying;
+	});
+</script>
+
+</body>
+</html>
